@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 Delivery App — Сервис оформления доставки
 
-## Getting Started
+Современное мини-приложение для оформления заявок на доставку посылок. Построено на базе **Next.js 14+ (App Router)** с использованием **TypeScript** и **Tailwind CSS**.
 
-First, run the development server:
+## ✨ Особенности
+
+- **Многошаговая форма (3 шага):**
+  - Шаг 1: Сбор данных об отправителе с валидацией и маской телефона `+7 (000) 000 - 00 - 00`.
+  - Шаг 2: Параметры получателя и посылки (валидация на несовпадение городов, выбор типа груза, ограничение веса 0.1–30 кг).
+  - Шаг 3: Сводка данных и обязательное согласие с условиями.
+- **История заказов (`/orders`):**
+  - Сохранение данных в `localStorage`.
+  - Поиск по имени получателя и городу назначения.
+  - Фильтрация по типу груза (Документы, Хрупкое, Обычное).
+  - Кастомное диалоговое окно подтверждения удаления.
+- **Детальная страница заказа:** Просмотр полной информации о конкретной заявке по динамическому ID.
+- **Дизайн:** Современный UI с использованием `rounded-3xl`, мягких теней и плавных анимаций (без сторонних UI-библиотек).
+- **Адаптивность:** Полная поддержка мобильных устройств и десктопов.
+
+---
+
+## 🛠 Технологический стек
+
+- **Framework:** [Next.js 14 (App Router)](https://nextjs.org/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/) (строгая типизация всех сущностей)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Icons:** Кастомные SVG (Lucide-style)
+- **State Management:** React Hooks (useState, useEffect, useMemo)
+- **Persistence:** LocalStorage API
+
+---
+
+## 🚀 Как запустить проект
+
+### 1. Клонирование репозитория
+
+```bash
+git clone https://github.com/your-username/delivery-app.git
+cd delivery-app
+```
+
+### 2. Установка зависимостей
+
+```bash
+npm install
+# или
+yarn install
+```
+
+### 3. Запуск в режиме разработки
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Приложение будет доступно по адресу: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Сборка для продакшена
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Структура проекта
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+src/
+├── app/
+│   ├── layout.tsx       # Глобальная обертка и шрифты
+│   ├── page.tsx         # Главная: Форма оформления (3 шага)
+│   ├── orders/
+│   │   ├── page.tsx     # Список всех заявок (История)
+│   │   └── [id]/
+│   │       └── page.tsx # Детальная страница конкретного заказа
+├── types/
+│   └── order.ts         # TypeScript интерфейсы (Order, CargoType)
+└── components/          # (Опционально) вынесенные переиспользуемые блоки
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📋 Технические решения
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  **Маска телефона:** Реализована через кастомную функцию форматирования строки в реальном времени, предотвращая ввод некорректных символов.
+2.  **Валидация:** Ручная обработка ошибок на каждом шаге формы. Переход к следующему шагу блокируется до исправления ошибок.
+3.  **Hydration Fix:** Использование хука `useEffect` и состояния `isMounted` для корректной работы с `localStorage`, чтобы избежать конфликтов между серверным и клиентским рендерингом Next.js.
+4.  **Zero UI Libraries:** Весь интерфейс, включая степпер, чекбоксы и модальные окна, написан на чистом Tailwind CSS для обеспечения максимальной производительности и минимального размера бандла.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🌐 Развертывание (Deployment)
+
+Проект оптимизирован для деплоя на платформу **Vercel**:
+
+1. Залейте код на GitHub/GitLab.
+2. Подключите репозиторий к Vercel.
+3. Команда сборки (`npm run build`) и директория выхода (`.next`) подхватятся автоматически.
+
+---
+
+_Разработано в рамках технического задания на вакансию Frontend-разработчика._
